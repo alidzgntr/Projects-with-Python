@@ -1,0 +1,55 @@
+# Simple Restaurant Ordering System (procedural)
+
+MENU = {
+    "pizza": 30.0,
+    "hamburger": 25.0,
+    "salad": 10.0,
+    "pasta": 20.0,
+    "sushi": 50.0,
+}
+
+QUIT_WORDS = {"quit", "exit", "q"}  
+
+# Show menu
+print("Food Menu:")
+for item, price in MENU.items():
+    print(f"  - {item.title():<10}: {price:.2f} TL")
+print()
+
+orders = []
+
+# Ordering loop
+while True:
+    choice = input("Place an order (type 'quit' to finish): ").strip().lower()
+
+    if choice in QUIT_WORDS:
+        print("Ordering finished.")
+        break
+
+    if choice not in MENU:
+        print("Invalid item! Please try again.")
+        continue
+
+    qty_str = input("Enter quantity: ").strip()
+    if not qty_str.isdigit():
+        print("Quantity must be a positive integer.")
+        continue
+
+    qty = int(qty_str)
+    if qty <= 0:
+        print("Quantity must be greater than 0.")
+        continue
+
+    line_total = MENU[choice] * qty
+    orders.append((choice, qty, line_total))
+
+# Summary
+if orders:
+    print("\nYour Orders:")
+    grand_total = 0.0
+    for item, qty, line_total in orders:
+        grand_total += line_total
+        print(f"  {item.title():<10} x {qty:<3} = {line_total:.2f} TL")
+    print(f"\nTotal to Pay: {grand_total:.2f} TL")
+else:
+    print("No orders were placed.")
